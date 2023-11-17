@@ -54,6 +54,9 @@ public class FamilyTree
             {
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
+            	if (child.getNodeWithName(targetName) != null) {
+            		return child;
+            	}
             }
             
             // Not found anywhere.
@@ -157,6 +160,10 @@ public class FamilyTree
 			}
 		}
 		
+		for (int i = 0; i < childrenArray.length; i++) {
+			TreeNode temp = new TreeNode(childrenArray[i]);
+			parentNode.addChild(temp);
+		}
 		// Add child nodes to parentNode.
 		//?? For each name in childrenArray, create a new node and add that node to parentNode.
 	}
@@ -171,16 +178,16 @@ public class FamilyTree
 	TreeNode getMostRecentCommonAncestor(String name1, String name2) throws TreeException
 	{
 		// Get nodes for input names.
-		TreeNode node1 = root.???		// node whose name is name1
+		TreeNode node1 = root.getNodeWithName(name1);		// node whose name is name1
 		if (node1 == null)
-			??? Throw a TreeException with a useful message
-		TreeNode node2 = root.???		// node whose name is name2
+			throw new TreeException("No node with name1 exists");
+		TreeNode node2 = root.getNodeWithName(name2);		// node whose name is name2
 		if (node2 == null)
-			??? Throw TreeException with a useful message
+			throw new TreeException("No node with name2 exists");
 		
 		// Get ancestors of node1 and node2.
-		ArrayList<TreeNode> ancestorsOf1 = ???
-		ArrayList<TreeNode> ancestorsOf2 = ???
+		ArrayList<TreeNode> ancestorsOf1 = node1.collectAncestorsToList();
+		ArrayList<TreeNode> ancestorsOf2 = node2.collectAncestorsToList();
 		
 		// Check members of ancestorsOf1 in order until you find a node that is also
 		// an ancestor of 2. 
@@ -208,13 +215,13 @@ public class FamilyTree
 			TreeNode ancestor = tree.getMostRecentCommonAncestor("Bilbo", "Frodo");
 			System.out.println("Most recent common ancestor of Bilbo and Frodo is " + ancestor.getName());
 		}
-		catch (IOException x)
-		{
-			System.out.println("IO trouble: " + x.getMessage());
-		}
 		catch (TreeException x)
 		{
 			System.out.println("Input file trouble: " + x.getMessage());
+		}
+		catch (IOException x)
+		{
+			System.out.println("IO trouble: " + x.getMessage());
 		}
 	}
 }
